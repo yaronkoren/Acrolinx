@@ -1,0 +1,45 @@
+{
+	"@Note": "When updating this file please also update Acrolinx.php with the same changes.",
+	"name": "Acrolinx",
+	"version": "0.1",
+	"author": [
+		"Yaron Koren"
+	],
+	"url": "https://www.mediawiki.org/wiki/Extension:Acrolinx",
+	"descriptionmsg": "acrolinx-desc",
+	"license-name": "GPL-3.0",
+	"type": "hook",
+	"requires": {
+		"MediaWiki": ">= 1.27.0"
+	},
+	"MessagesDirs": {
+		"Acrolinx": [
+			"i18n"
+		]
+	},
+        "AutoloadClasses": {
+                "AcrolinxHooks": "Acrolinx.hooks.php"
+        },
+	"ResourceModules": {
+		"ext.acrolinx": {
+			"scripts": [
+				"resources/acrolinx-sidebar-integration.js",
+				"resources/mw_acrolinx.js"
+			],
+			"styles": [
+				"resources/acrolinx-sidebar.css",
+				"resources/mw_acrolinx.css"
+			]
+		}
+	},
+	"ResourceFileModulePaths": {
+		"localBasePath": "",
+		"remoteExtPath": "Acrolinx"
+	},
+        "Hooks": {
+		"MakeGlobalVariablesScript": "AcrolinxHooks::setGlobalJSVariables",
+                "EditPage::showEditForm:initial": "AcrolinxHooks::addToEditPage",
+		"PageForms::AddRLModules": "AcrolinxHooks::addToFormEditPage"
+        },
+	"manifest_version": 1
+}

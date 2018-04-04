@@ -1,0 +1,30 @@
+== About ==
+
+Acrolinx is an extension to MediaWiki that allows for using the
+proprietary Acrolinx "content optimization" service when editing
+wiki pages.
+
+For more information on the Acrolinx extension, see its homepage at
+https://www.mediawiki.org/wiki/Extension:Acrolinx
+
+== Credits ==
+
+The Acrolinx extension was created by Yaron Koren. It uses
+JavaScript code developed by both Acrolinx and Google, as well as
+CSS code developed by Acrolinx, all available under the Apache 2.0
+license, which is compatible with the GPLv3 license under which
+this extension is released.
+
+== Contact ==
+
+Comments, questions and suggestions can be submitted on the Acrolinx
+extension's talk page, or sent to the MediaWiki mailing list:
+
+ https://lists.wikimedia.org/mailman/listinfo/mediawiki-l
+
+If possible, please add "[Acrolinx]" at the beginning of the subject
+line, to clarify the subject matter.
+
+Bug reports should be submitted at the Wikimedia Phabricator site:
+
+ https://phabricator.wikimedia.org/maniphest/task/create/

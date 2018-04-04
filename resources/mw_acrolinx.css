@@ -1,0 +1,13 @@
+/**
+ * MediaWiki-specific customizations for Acrolinx.
+ */
+#acrolinxContainer iframe {
+  margin-top: 60px;
+}
+
+div#acrolinxToggle {
+	cursor: pointer;
+	float: right;
+	font-size: 22pt;
+	color: #777;
+}
