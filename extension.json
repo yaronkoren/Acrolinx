@@ -17,9 +17,9 @@
 			"i18n"
 		]
 	},
-        "AutoloadClasses": {
-                "AcrolinxHooks": "Acrolinx.hooks.php"
-        },
+	"AutoloadClasses": {
+		"AcrolinxHooks": "Acrolinx.hooks.php"
+	},
 	"ResourceModules": {
 		"ext.acrolinx": {
 			"scripts": [
@@ -36,10 +36,13 @@
 		"localBasePath": "",
 		"remoteExtPath": "Acrolinx"
 	},
-        "Hooks": {
+	"Hooks": {
 		"MakeGlobalVariablesScript": "AcrolinxHooks::setGlobalJSVariables",
-                "EditPage::showEditForm:initial": "AcrolinxHooks::addToEditPage",
+		"EditPage::showEditForm:initial": "AcrolinxHooks::addToEditPage",
 		"PageForms::AddRLModules": "AcrolinxHooks::addToFormEditPage"
-        },
+	},
+	"config": {
+		"AcrolinxNamespaces": [0]
+	},
 	"manifest_version": 1
 }
