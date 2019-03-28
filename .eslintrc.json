@@ -19,6 +19,7 @@
 		"vars-on-top": "off",
 		"one-var": "off",
 		"no-jquery/no-event-shorthand": "off",
-		"no-jquery/no-animate": "off"
+		"no-jquery/no-animate": "off",
+		"linebreak-style": "off"
 	}
 }

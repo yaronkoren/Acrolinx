@@ -23,8 +23,18 @@
 	"ResourceModules": {
 		"ext.acrolinx": {
 			"scripts": [
-				"resources/acrolinx-sidebar-integration.js",
+				"resources/acrolinx-sidebar-sdk.min.js",
 				"resources/mw_acrolinx.js"
+			],
+			"styles": [
+				"resources/acrolinx-sidebar.css",
+				"resources/mw_acrolinx.css"
+			]
+		},
+		"ext.acrolinx.ve": {
+			"scripts": [
+				"resources/acrolinx-sidebar-sdk.min.js",
+				"resources/mw_acrolinx_ve.js"
 			],
 			"styles": [
 				"resources/acrolinx-sidebar.css",
@@ -39,7 +49,8 @@
 	"Hooks": {
 		"MakeGlobalVariablesScript": "AcrolinxHooks::setGlobalJSVariables",
 		"EditPage::showEditForm:initial": "AcrolinxHooks::addToEditPage",
-		"PageForms::AddRLModules": "AcrolinxHooks::addToFormEditPage"
+		"PageForms::AddRLModules": "AcrolinxHooks::addToFormEditPage",
+		"BeforePageDisplay": "AcrolinxHooks::BeforePageDisplay"
 	},
 	"config": {
 		"AcrolinxNamespaces": [0]

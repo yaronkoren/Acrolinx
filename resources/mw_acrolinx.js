@@ -40,12 +40,17 @@ var acrolinxPlugin = new acrolinx.plugins.AcrolinxPlugin( basicConf );
 var multiAdapter = new acrolinx.plugins.adapter.MultiEditorAdapter( {} );
 
 jQuery.fn.addAcrolinxAdapterToFormInput = function () {
+
 	return this.each( function () {
 		var inputAdapter, textareaID = $( this ).attr( 'id' );
 
 		if ( $( this ).hasClass( 'tinymce' ) ) {
 			inputAdapter = new acrolinx.plugins.adapter.TinyMCEAdapter( {
 				editorId: textareaID
+			} );
+		} else if ( $( this ).hasClass( 've-init-sa-target' ) ) {
+			inputAdapter = new acrolinx.plugins.adapter.ContentEditableAdapter( {
+				element: this
 			} );
 		} else {
 			inputAdapter = new acrolinx.plugins.adapter.InputAdapter( {
@@ -71,8 +76,10 @@ if ( action === 'edit' ) {
 	// This is most likely a Page Forms editing interface, which will have
 	// an action of either 'formedit' or 'view', depending on the URL.
 	$( 'textarea, input.createboxInput' )
-		.not( '.multipleTemplateStarter textarea' )
-		.not( '.multipleTemplateStarter input.createboxInput' )
+		.not( '.multipleTemplateStarter textarea' ) // ignore embed starter textarea
+		.not( '.multipleTemplateStarter input.createboxInput' ) // ignore embed starter inputs
+		.not( 'input.pfTokens' ) // ignore token input
+		.not( 'textarea.visualeditor ' ) // ignore VEForAll input
 		.addAcrolinxAdapterToFormInput();
 }
 
@@ -127,5 +134,46 @@ $( 'div#acrolinxToggle' ).click( function () {
 	var contentAreaWidth = getContentAreaWidthWithAcrolinx( acrolinxWidth );
 	$( '#mw-content-text' ).animate( {
 		width: contentAreaWidth
+	} );
+} );
+
+/**
+ * The code below adds surface-ready callbacks to all VE form field instances
+ * and initializes an acrolinx.plugins.adapter.ContentEditableAdapter on these
+ * @see $.addAcrolinxAdapterToFormInput()
+ */
+mw.loader.using( 'ext.veforall.main', function () {
+	var instances = $( document ).getVEInstances();
+	instances.forEach( function ( instance ) {
+		instance.target.on( 'editor-ready', function () {
+
+			if ( typeof instance.acrolinxEnabled === 'undefined' ) {
+				instance.target.$element.addAcrolinxAdapterToFormInput();
+				// TODO: This is a bit hacky - we store init flag on the instance
+				//  to prevent it from being initialized again and again since
+				//  editor-ready event will be triggered each time user switch from VE to textarea
+				//  and versa
+				instance.acrolinxEnabled = true;
+			}
+
+			// VE surface being recreated on editor switch so we need to rebind
+			instance.target.getSurface().on( 'switchEditor', function () {
+				// TODO: ideally we need to remove ContentEditable adapter on VE surface destroy
+				//  and replace it with regular input adapter, though, the removeAdapter method
+				//  is not implemented in Acrolinx MultiEditorAdapter SDK so perhaps this is a very
+				//  special case need to be implemented as a new AdapterInterface class
+				if ( $( instance.target.$node ).is( ':visible' ) ) {
+					// Switch to VE
+					// TODO: ...
+				} else {
+					// Switch to TEXTAREA
+					// TODO: ...
+				}
+			} );
+
+			// FIXME: without extra interface creating we barely can handle any error corrections
+			//  coming form Acrolinx plugin
+
+		} );
 	} );
 } );

@@ -11,3 +11,16 @@ div#acrolinxToggle {
 	font-size: 22pt;
 	color: #777;
 }
+
+#acrolinxContainer.ve-enabled-acrolinx {
+	overflow: hidden;
+	z-index: 999999;
+}
+
+#acrolinxContainer.ve-enabled-acrolinx iframe {
+	margin-top: 80px;
+}
+
+.acrolinx-ve-sidebar #content {
+	margin-right: 301px;
+}
