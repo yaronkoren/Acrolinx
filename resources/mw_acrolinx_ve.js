@@ -31,7 +31,7 @@ function initializeAcrolinxSidbar() {
 	$( 'body' ).addClass( 'acrolinx-ve-sidebar' );
 
 	contentAdapter = new acrolinx.plugins.adapter.ContentEditableAdapter( {
-		element: $( '.ve-ce-rootNode' ).get( 0 )
+		element: $( '.ve-ce-documentNode' ).get( 0 )
 	} );
 
 	acrolinxPlugin.registerAdapter( contentAdapter );
