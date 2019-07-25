@@ -17,6 +17,11 @@ var contentAdapter,
 		getDocumentReference: function () {
 			return window.location.href;
 		},
+		clientComponents: {
+			id: 'com.mediawiki.acrolinx.sidebar',
+			name: 'Acrolinx Mediawiki Sidebar',
+			version: '0.1'
+		},
 		// FIXME: we can't properly apply corrections on VE surface so make it readonly
 		readOnlySuggestions: true
 	},

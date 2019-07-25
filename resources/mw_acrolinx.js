@@ -22,6 +22,12 @@ var basicConf = {
 		language: mw.config.get( 'wgAcrolinxPageLanguage' )
 	},
 
+	clientComponents: {
+		id: 'com.mediawiki.acrolinx.sidebar',
+		name: 'Acrolinx Mediawiki Sidebar',
+		version: '0.1'
+	},
+
 	/**
 	 * This callback can be used to set the documentReference.
 	 * It is called in the moment when the document is checked.
