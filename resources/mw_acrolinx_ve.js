@@ -16,9 +16,9 @@ var contentAdapter,
 		},
 		getDocumentReference: function () {
 			return window.location.href;
-		},
+		}// ,
 		// FIXME: we can't properly apply corrections on VE surface so make it readonly
-		readOnlySuggestions: true
+		// readOnlySuggestions: true
 	},
 	acrolinxPlugin = new acrolinx.plugins.AcrolinxPlugin( basicConf );
 
@@ -27,15 +27,17 @@ var contentAdapter,
  */
 function initializeAcrolinxSidbar() {
 
-	$( '#content' ).before( '<div id="acrolinxContainer" class="ve-enabled-acrolinx"></div>' );
-	$( 'body' ).addClass( 'acrolinx-ve-sidebar' );
+	mw.hook( 've.activationComplete' ).add( function () {
 
-	contentAdapter = new acrolinx.plugins.adapter.ContentEditableAdapter( {
-		element: $( '.ve-ce-rootNode' ).get( 0 )
+		$( '#content' ).before( '<div id="acrolinxContainer" class="ve-enabled-acrolinx"></div>' );
+		$( 'body' ).addClass( 'acrolinx-ve-sidebar' );
+
+		var contentAdapter = new acrolinx.plugins.adapter.VisualEditorAdapter();
+
+		acrolinxPlugin.registerAdapter( contentAdapter );
+		acrolinxPlugin.init();
+
 	} );
-
-	acrolinxPlugin.registerAdapter( contentAdapter );
-	acrolinxPlugin.init();
 
 }
 
