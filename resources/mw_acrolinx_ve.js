@@ -4,12 +4,14 @@
 
 'use strict';
 
+// TODO: merge into a single file
 var contentAdapter,
 	// FIXME: duplicates config from mw_acrolinx.js
 	basicConf = {
 		sidebarContainerId: 'acrolinxContainer',
 		serverAddress: mw.config.get( 'wgAcrolinxServerAddress' ),
-		clientSignature: mw.config.get( 'wgAcrolinxClientSignature' ),
+		// Sandbox signature
+		clientSignature: 'SW50ZWdyYXRpb25EZXZlbG9wbWVudERlbW9Pbmx5',
 		clientLocale: mw.config.get( 'wgAcrolinxUserLanguage' ),
 		checkSettings: {
 			language: mw.config.get( 'wgAcrolinxPageLanguage' )
@@ -17,11 +19,14 @@ var contentAdapter,
 		getDocumentReference: function () {
 			return window.location.href;
 		},
-		clientComponents: {
-			id: 'com.mediawiki.acrolinx.sidebar',
-			name: 'Acrolinx Mediawiki Sidebar',
-			version: '0.1'
-		}
+		clientComponents: [
+			{
+				id: 'com.mediawiki.acrolinx.sidebar',
+				name: 'Acrolinx Mediawiki Sidebar',
+				version: '0.1.0.0',
+				category: 'MAIN'
+			}
+		]
 	},
 	acrolinxPlugin = new acrolinx.plugins.AcrolinxPlugin( basicConf );
 

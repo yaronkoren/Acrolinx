@@ -19,8 +19,13 @@ div#acrolinxToggle {
 
 #acrolinxContainer.ve-enabled-acrolinx iframe {
 	margin-top: 80px;
+	min-height: 100%;
 }
 
 .acrolinx-ve-sidebar #content {
 	margin-right: 301px;
+}
+
+.ve-init-mw-desktopArticleTarget-originalContent #acrolinxContainer {
+	display: none;
 }

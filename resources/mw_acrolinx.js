@@ -11,22 +11,28 @@
 // $('#bodyContent').prepend( '<div id="acrolinxSidebar"><div id="acrolinxToggle"><div id="acrolinxContainer"></div></div>' );
 $( '#bodyContent' ).prepend( '<div id="acrolinxContainer"></div>' );
 
+// TODO: merge into a single file
+
 var basicConf = {
 	sidebarContainerId: 'acrolinxContainer',
 	// See: https://cdn.rawgit.com/acrolinx/acrolinx-sidebar-demo/v0.3.52/doc/pluginDoc/interfaces/_src_acrolinx_libs_plugin_interfaces_.initparameters.html
 	serverAddress: mw.config.get( 'wgAcrolinxServerAddress' ),
-	clientSignature: mw.config.get( 'wgAcrolinxClientSignature' ),
+	// Sandbox signature
+	clientSignature: 'SW50ZWdyYXRpb25EZXZlbG9wbWVudERlbW9Pbmx5',
 	clientLocale: mw.config.get( 'wgAcrolinxUserLanguage' ),
 
 	checkSettings: {
 		language: mw.config.get( 'wgAcrolinxPageLanguage' )
 	},
 
-	clientComponents: {
-		id: 'com.mediawiki.acrolinx.sidebar',
-		name: 'Acrolinx Mediawiki Sidebar',
-		version: '0.1'
-	},
+	clientComponents: [
+		{
+			id: 'com.mediawiki.acrolinx.sidebar',
+			name: 'Acrolinx Mediawiki Sidebar',
+			version: '0.1.0.0',
+			category: 'MAIN'
+		}
+	],
 
 	/**
 	 * This callback can be used to set the documentReference.
@@ -43,7 +49,11 @@ var basicConf = {
 };
 
 var acrolinxPlugin = new acrolinx.plugins.AcrolinxPlugin( basicConf );
-var multiAdapter = new acrolinx.plugins.adapter.MultiEditorAdapter( {} );
+var multiAdapter = new acrolinx.plugins.adapter.MultiEditorAdapter( {
+	rootElement: {
+		tagName: 'mediawiki'
+	}
+} );
 
 jQuery.fn.addAcrolinxAdapterToFormInput = function () {
 

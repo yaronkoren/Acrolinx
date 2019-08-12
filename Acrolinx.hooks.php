@@ -76,11 +76,14 @@ class AcrolinxHooks {
 	 * @return bool
 	 */
 	public static function BeforePageDisplay( OutputPage $out, Skin $skin ) {
-		if ( !$out->getRequest()->getVal( 'action' ) ) {
+
+		//$action = $out->getRequest()->getVal( 'action' );
+
+		//if ( !$action || ( $action === 'edit' &&  ) ) {
 			if ( self::enableAcrolinxForPage( $out->getTitle() ) ) {
 				$out->addModules( 'ext.acrolinx.ve' );
 			}
-		}
+		//}
 		return true;
 	}
 
