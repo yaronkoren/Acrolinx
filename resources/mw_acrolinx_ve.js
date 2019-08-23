@@ -4,6 +4,8 @@
 
 'use strict';
 
+console.log('Using mw_acrolinx_ve.js!');
+
 // TODO: merge into a single file
 var contentAdapter,
 	// FIXME: duplicates config from mw_acrolinx.js

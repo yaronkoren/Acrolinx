@@ -1,8 +1,14 @@
 /**
  * MediaWiki-specific customizations for Acrolinx.
  */
+
+#acrolinxContainer {/*
+	min-height: calc( 100vh - 300px );
+	float: right;*/
+}
+
 #acrolinxContainer iframe {
-  margin-top: 60px;
+	margin-top: 60px;
 }
 
 div#acrolinxToggle {
@@ -18,8 +24,9 @@ div#acrolinxToggle {
 }
 
 #acrolinxContainer.ve-enabled-acrolinx iframe {
-	margin-top: 80px;
+	margin-top: 114px;
 	min-height: 100%;
+	max-height: calc( 100vh - 116px );
 }
 
 .acrolinx-ve-sidebar #content {

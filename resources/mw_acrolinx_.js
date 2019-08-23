@@ -8,6 +8,8 @@
 
 'use strict';
 
+console.log('Using mw_acrolinx.js!');
+
 // $('#bodyContent').prepend( '<div id="acrolinxSidebar"><div id="acrolinxToggle"><div id="acrolinxContainer"></div></div>' );
 $( '#bodyContent' ).prepend( '<div id="acrolinxContainer"></div>' );
 

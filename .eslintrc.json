@@ -9,7 +9,8 @@
 		"mw": false,
 		"OO": false,
 		"acrolinx": false,
-		"jQuery": false
+		"jQuery": false,
+		"mediaWiki": true
 	},
 	"rules": {
 		"quote-props": [ "error", "as-needed" ],

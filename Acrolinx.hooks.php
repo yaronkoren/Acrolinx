@@ -73,17 +73,37 @@ class AcrolinxHooks {
 	 * @param OutputPage $out
 	 * @param Skin $skin
 	 *
-	 * @return bool
+	 * @return bool|void
 	 */
 	public static function BeforePageDisplay( OutputPage $out, Skin $skin ) {
 
 		//$action = $out->getRequest()->getVal( 'action' );
 
 		//if ( !$action || ( $action === 'edit' &&  ) ) {
-			if ( self::enableAcrolinxForPage( $out->getTitle() ) ) {
+			/*if ( self::enableAcrolinxForPage( $out->getTitle() ) ) {
 				$out->addModules( 'ext.acrolinx.ve' );
-			}
+			} else {
+				if ( $out->getRequest()->getVal( 'title' ) === 'Special:FormEdit' ||
+					 $out->getRequest()->getVal( 'action' ) === 'formedit' ) {
+					$out->addModules( 'ext.acrolinx' );
+				}
+			}*/
 		//}
+
+		if ( !self::enableAcrolinxForPage( $out->getTitle() ) ) {
+			// return;
+		}
+
+		/*if (
+			$out->getRequest()->getVal( 'title' ) === 'Special:FormEdit' ||
+			$out->getRequest()->getVal( 'action' ) === 'formedit' ||
+			$out->getRequest()->getVal( 'action' ) === 'edit' )
+		{
+			$out->addModules( 'ext.acrolinx' );
+		}*/
+
+		$out->addModules( 'ext.acrolinx' );
+
 		return true;
 	}
 

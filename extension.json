@@ -24,17 +24,8 @@
 		"ext.acrolinx": {
 			"scripts": [
 				"resources/acrolinx-sidebar-sdk.js",
-				"resources/mw_acrolinx.js"
-			],
-			"styles": [
-				"resources/acrolinx-sidebar.css",
-				"resources/mw_acrolinx.css"
-			]
-		},
-		"ext.acrolinx.ve": {
-			"scripts": [
-				"resources/acrolinx-sidebar-sdk.js",
-				"resources/mw_acrolinx_ve.js"
+				"resources/MediawikiAcrolinx.js",
+				"resources/init.js"
 			],
 			"styles": [
 				"resources/acrolinx-sidebar.css",
