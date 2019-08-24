@@ -170,7 +170,7 @@
 		mw.hook( 'pf.addTemplateInstance' ).add( function ( $newDiv ) {
 			// TODO: ...
 			this.setupFormField( $newDiv.find( 'textarea' ) );
-		} );
+		}.bind( this ) );
 
 		// Handle VEForAll instances inside the form, it won't do anything if there are no VEForAll
 		this.setupVEForAll();
