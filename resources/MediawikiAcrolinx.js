@@ -192,6 +192,8 @@
 			instances.forEach( function ( instance ) {
 				instance.target.on( 'editor-ready', function () {
 
+					console.log('! Editor-ready on VEForAll instance!');
+
 					if ( typeof instance.acrolinxEnabled === 'undefined' ) {
 
 						// TODO: needs extra modification on SDK
