@@ -2,9 +2,9 @@
  * MediaWiki-specific customizations for Acrolinx.
  */
 
-#acrolinxContainer {/*
-	min-height: calc( 100vh - 300px );
-	float: right;*/
+#acrolinxContainer {
+	/*min-height: calc( 100vh - 300px );*/
+	/*float: right;*/
 }
 
 #acrolinxContainer iframe {
@@ -21,6 +21,7 @@ div#acrolinxToggle {
 #acrolinxContainer.ve-enabled-acrolinx {
 	overflow: hidden;
 	z-index: 999999;
+	float: right;
 }
 
 #acrolinxContainer.ve-enabled-acrolinx iframe {

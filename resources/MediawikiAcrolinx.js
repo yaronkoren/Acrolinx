@@ -22,8 +22,8 @@
 	 */
 	MediawikiAcrolinx.prototype.setup = function () {
 
+		var initializers;
 		this.editMode = this.getEditMode();
-		this.initializer = null;
 
 		// Install the plugin
 		this.acrolinxPlugin = new acrolinx.plugins.AcrolinxPlugin( this.getConfig() );
@@ -33,26 +33,17 @@
 			}
 		} );
 
-		// Take edit mode specific actions
-		switch ( this.editMode ) {
-			case 'textarea':
-				this.initializer = this.mockDeferCall( this.setupForTextarea );
-				break;
-			case 'tinymce':
-				this.initializer = this.mockDeferCall( this.setupForTinyMCE );
-				break;
-			case 'form':
-				this.initializer = this.mockDeferCall( this.setupForForm );
-				break;
-			case 've':
-				this.initializer = this.setupForVE();
-				break;
-			default:
-				// These is nothing to do
-				return;
+		initializers = this.getInitializers();
+		if ( !initializers.length ) {
+			return;
 		}
 
-		$.when( this.initializer ).done( function () {
+		this.startAcrolinx( initializers );
+
+	};
+
+	MediawikiAcrolinx.prototype.startAcrolinx = function ( initializers ) {
+		$.when.apply( $, initializers ).done( function () {
 			this.addMarkup();
 			// Register the adapters
 			this.acrolinxPlugin.registerAdapter( this.multiAdapter );
@@ -65,7 +56,45 @@
 			// Call the resize callback right away
 			this.onResize();
 		}.bind( this ) );
+	};
 
+	MediawikiAcrolinx.prototype.getInitializers = function () {
+		var initializers = [];
+		// Take edit mode specific actions
+		switch ( this.editMode ) {
+			case 'textarea':
+				initializers = [
+					this.mockDeferCall( this.setupForTextarea ),
+					this.mockDeferCall( this.handleVESwitch )
+				];
+				break;
+			case 'tinymce':
+				initializers = [ this.mockDeferCall( this.setupForTinyMCE ) ];
+				break;
+			case 'form':
+				initializers = [ this.mockDeferCall( this.setupForForm ) ];
+				break;
+			case 've':
+				initializers = [ this.setupForVE() ];
+				break;
+			default:
+				// By default we'll wait for VE activation
+				this.editMode = 've';
+				initializers = [ this.setupForVE() ];
+				break;
+		}
+		return initializers;
+	};
+
+	MediawikiAcrolinx.prototype.handleVESwitch = function () {
+		mw.hook( 've.activationComplete' ).add( function () {
+			if ( this.editMode === 'textarea' ) {
+				this.acrolinxPlugin.dispose( function () {
+					this.editMode = 've';
+					this.startAcrolinx( this.getInitializers() );
+				}.bind( this ) );
+			}
+		}.bind( this ) );
 	};
 
 	/**
@@ -203,18 +232,23 @@
 			var contentAdapter = new acrolinx.plugins.adapter.VisualEditorAdapter();
 			this.multiAdapter.addSingleAdapter( contentAdapter );
 
+			if ( this.editMode !== 've' ) {
+				this.startAcrolinx( [] );
+			}
+
 			defer.resolve();
 
-			/**
-			 * Catches VE destroy event
-			 */
-			mw.hook( 've.deactivationComplete' ).add( function () {
-				$( 'body' ).removeClass( 'acrolinx-ve-sidebar' );
-				this.acrolinxPlugin.dispose( function () {
-					// done
-				} );
-			}.bind( this ) );
+		}.bind( this ) );
 
+		/**
+		 * Catches VE destroy event
+		 */
+		mw.hook( 've.deactivationComplete' ).add( function () {
+			$( 'body' ).removeClass( 'acrolinx-ve-sidebar' );
+			this.acrolinxPlugin.dispose( function () {
+				// hack to support VE re-enabling
+				this.editMode = 'textarea';
+			}.bind( this ) );
 		}.bind( this ) );
 
 		return defer;

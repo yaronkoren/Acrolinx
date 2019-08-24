@@ -76,34 +76,21 @@ class AcrolinxHooks {
 	 * @return bool|void
 	 */
 	public static function BeforePageDisplay( OutputPage $out, Skin $skin ) {
+		// TODO: perhaps find a way to detect VE/Forms more precisely to
+		// avoid loading the library code on regular pages
 
-		//$action = $out->getRequest()->getVal( 'action' );
+		/*$isEditOrForm = in_array(
+			$out->getRequest()->getVal('action'),
+			[ 'edit', 'formedit' ]
+		);
+		$isVe = $out->getRequest()->getVal('veaction') === 'edit';*/
+		$isEnabled = self::enableAcrolinxForPage( $out->getTitle() );
 
-		//if ( !$action || ( $action === 'edit' &&  ) ) {
-			/*if ( self::enableAcrolinxForPage( $out->getTitle() ) ) {
-				$out->addModules( 'ext.acrolinx.ve' );
-			} else {
-				if ( $out->getRequest()->getVal( 'title' ) === 'Special:FormEdit' ||
-					 $out->getRequest()->getVal( 'action' ) === 'formedit' ) {
-					$out->addModules( 'ext.acrolinx' );
-				}
-			}*/
-		//}
-
-		if ( !self::enableAcrolinxForPage( $out->getTitle() ) ) {
-			// return;
+		if ( !$isEnabled /*|| !( $isEditOrForm || $isVe )*/ ) {
+			return;
 		}
 
-		/*if (
-			$out->getRequest()->getVal( 'title' ) === 'Special:FormEdit' ||
-			$out->getRequest()->getVal( 'action' ) === 'formedit' ||
-			$out->getRequest()->getVal( 'action' ) === 'edit' )
-		{
-			$out->addModules( 'ext.acrolinx' );
-		}*/
-
 		$out->addModules( 'ext.acrolinx' );
-
 		return true;
 	}
 
