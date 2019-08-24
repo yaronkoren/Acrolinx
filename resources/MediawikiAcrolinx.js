@@ -42,6 +42,10 @@
 
 	};
 
+	/**
+	 * Starts Acrolinx plugin
+	 * @param {Array} initializers
+	 */
 	MediawikiAcrolinx.prototype.startAcrolinx = function ( initializers ) {
 		$.when.apply( $, initializers ).done( function () {
 			this.addMarkup();
@@ -58,6 +62,10 @@
 		}.bind( this ) );
 	};
 
+	/**
+	 * Builds up array of initializers to be executed
+	 * @return {Array}
+	 */
 	MediawikiAcrolinx.prototype.getInitializers = function () {
 		var initializers = [];
 		// Take edit mode specific actions
@@ -86,6 +94,9 @@
 		return initializers;
 	};
 
+	/**
+	 * Handles switch from source editing to VE editing mode and vise versa
+	 */
 	MediawikiAcrolinx.prototype.handleVESwitch = function () {
 		mw.hook( 've.activationComplete' ).add( function () {
 			if ( this.editMode === 'textarea' ) {
@@ -107,6 +118,9 @@
 		defer.resolve();
 	};
 
+	/**
+	 * Adds sidebar markup to the dom
+	 */
 	MediawikiAcrolinx.prototype.addMarkup = function () {
 		if ( this.editMode === 've' ) {
 			$( '#content' ).before( '<div id="acrolinxContainer" class="ve-enabled-acrolinx"></div>' );
@@ -116,6 +130,9 @@
 		}
 	};
 
+	/**
+	 * Do necessary setups for regular source editing mode
+	 */
 	MediawikiAcrolinx.prototype.setupForTextarea = function () {
 		var inputAdapter = new acrolinx.plugins.adapter.InputAdapter( {
 			editorId: 'wpTextbox1'
@@ -123,6 +140,9 @@
 		this.multiAdapter.addSingleAdapter( inputAdapter );
 	};
 
+	/**
+	 * Do necessary setups for TinyMCE editing mode
+	 */
 	MediawikiAcrolinx.prototype.setupForTinyMCE = function () {
 		var inputAdapter = new acrolinx.plugins.adapter.TinyMCEAdapter( {
 			editorId: 'wpTextbox1'
@@ -130,6 +150,9 @@
 		this.multiAdapter.addSingleAdapter( inputAdapter );
 	};
 
+	/**
+	 * Do necessary setups for form editing mode
+	 */
 	MediawikiAcrolinx.prototype.setupForForm = function () {
 		var $inputs = $( 'textarea, input.createboxInput' )
 			.not( '.multipleTemplateStarter textarea' ) // ignore embed starter textarea
@@ -149,12 +172,14 @@
 			this.setupFormField( $newDiv.find( 'textarea' ) );
 		} );
 
-		// Handle VEForAll instances inside the form, won't do anything if there is no VEForAll
+		// Handle VEForAll instances inside the form, it won't do anything if there are no VEForAll
 		this.setupVEForAll();
 
 	};
 
-	// TODO: ...
+	/**
+	 * Adds necessary bindings for VEForAll fields in form
+	 */
 	MediawikiAcrolinx.prototype.setupVEForAll = function () {
 		/**
 		 * The code below adds surface-ready callbacks to all VE form field instances
@@ -170,8 +195,8 @@
 					if ( typeof instance.acrolinxEnabled === 'undefined' ) {
 
 						// TODO: needs extra modification on SDK
-						var inputAdapter = new acrolinx.plugins.adapter.ContentEditableAdapter( {
-							element: instance.target.$element.get( 0 )
+						var inputAdapter = new acrolinx.plugins.adapter.VisualEditorAdapter( {
+							ve: instance
 						} );
 						self.multiAdapter.addSingleAdapter( inputAdapter );
 
@@ -184,10 +209,10 @@
 
 					// VE surface being recreated on editor switch so we need to rebind
 					instance.target.getSurface().on( 'switchEditor', function () {
-						// TODO: ideally we need to remove ContentEditable adapter on VE surface destroy
+						// TODO: ideally we need to remove the adapter upon VE surface destroy
 						//  and replace it with regular input adapter, though, the removeAdapter method
-						//  is not implemented in Acrolinx MultiEditorAdapter SDK so perhaps this is a very
-						//  special case need to be implemented as a new AdapterInterface class
+						//  is not implemented in the Acrolinx SDK so perhaps this is a very
+						//  special case need to be implemented in the new VisualEditorAdapter class in Acrolinx SDK
 						if ( $( instance.target.$node ).is( ':visible' ) ) {
 							// Switch to VE
 							// TODO: ...
@@ -202,6 +227,10 @@
 		} );
 	};
 
+	/**
+	 * Creates per-field content adapters
+	 * @param {Element} fieldElement
+	 */
 	MediawikiAcrolinx.prototype.setupFormField = function ( fieldElement ) {
 		var inputAdapter, textareaID = $( fieldElement ).attr( 'id' );
 
@@ -218,6 +247,10 @@
 		this.multiAdapter.addSingleAdapter( inputAdapter );
 	};
 
+	/**
+	 * Setup necessary bindings for Visual Editor mode
+	 * @return {$.Deferred}
+	 */
 	MediawikiAcrolinx.prototype.setupForVE = function () {
 		var defer = $.Deferred();
 		/**
@@ -229,7 +262,9 @@
 			// TODO: ...
 			$( '#content #acrolinxContainer' ).addClass( 've-enabled-acrolinx' );
 
-			var contentAdapter = new acrolinx.plugins.adapter.VisualEditorAdapter();
+			var contentAdapter = new acrolinx.plugins.adapter.VisualEditorAdapter( {
+				ve: window.ve
+			} );
 			this.multiAdapter.addSingleAdapter( contentAdapter );
 
 			if ( this.editMode !== 've' ) {
@@ -254,11 +289,19 @@
 		return defer;
 	};
 
+	/**
+	 * Handles window resize
+	 */
 	MediawikiAcrolinx.prototype.onResize = function () {
 		var newContentAreaWidth = this.getContentAreaWidthWithAcrolinx();
 		$( '#mw-content-text' ).width( newContentAreaWidth );
 	};
 
+	/**
+	 * Calculates width
+	 * @param {int} acrolinxWidth
+	 * @return {number}
+	 */
 	MediawikiAcrolinx.prototype.getContentAreaWidthWithAcrolinx = function ( acrolinxWidth ) {
 		var browserWidth = $( window ).width();
 		var mainTextLeft = $( '#mw-content-text' ).offset().left;
@@ -266,11 +309,18 @@
 		return browserWidth - mainTextLeft - acrolinxWidth - 50;
 	};
 
+	/**
+	 * Setups toggle button
+	 */
 	MediawikiAcrolinx.prototype.setupToggle = function () {
 		$( '#acrolinxContainer' ).prepend( '<div id="acrolinxToggle">&gt;</div>' );
 		$( 'div#acrolinxToggle' ).click( this.onToggle.bind( this ) );
 	};
 
+	/**
+	 * Handles toggle button click
+	 * @param {Event} event
+	 */
 	MediawikiAcrolinx.prototype.onToggle = function ( event ) {
 		var acrolinxWidth, contentAreaWidth;
 
@@ -340,6 +390,10 @@
 
 	};
 
+	/**
+	 * Generates config for Acrolinx plugin
+	 * @return {Object}
+	 */
 	MediawikiAcrolinx.prototype.getConfig = function () {
 		return {
 			sidebarContainerId: 'acrolinxContainer',
