@@ -400,7 +400,7 @@
 		return {
 			sidebarContainerId: 'acrolinxContainer',
 			serverAddress: mw.config.get( 'wgAcrolinxServerAddress' ),
-			clientSignature: 'SW50ZWdyYXRpb25EZXZlbG9wbWVudERlbW9Pbmx5',
+			clientSignature: 'R2VuZXN5cyBNZWRpYVdpa2kgKFNpZGViYXIp',
 			clientLocale: mw.config.get( 'wgAcrolinxUserLanguage' ),
 			checkSettings: {
 				language: mw.config.get( 'wgAcrolinxPageLanguage' )
@@ -408,7 +408,7 @@
 			clientComponents: [
 				{
 					id: 'com.mediawiki.acrolinx.sidebar',
-					name: 'Acrolinx Mediawiki Sidebar',
+					name: 'Genesys MediaWiki (Sidebar)',
 					version: '0.1.0.0',
 					category: 'MAIN'
 				}
