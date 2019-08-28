@@ -159,7 +159,7 @@
 			.not( '.multipleTemplateStarter input.createboxInput' ) // ignore embed starter inputs
 			.not( 'input.pfTokens' ) // ignore token input
 			// TODO: ...
-			.not( 'textarea.visualeditor ' ); // ignore VEForAll input
+			.not( 'textarea.visualeditor' ); // ignore VEForAll input
 
 		$inputs.each( function ( i, input ) {
 			this.setupFormField( input );
@@ -168,8 +168,23 @@
 		// Use a JavaScript hook to also add an adapter for any textarea in a
 		// newly-created instane of a multiple-instance template.
 		mw.hook( 'pf.addTemplateInstance' ).add( function ( $newDiv ) {
-			// TODO: ...
-			this.setupFormField( $newDiv.find( 'textarea' ) );
+
+			// TODO: refactor into a better approach with less duplication
+			var $inputs = $newDiv.find( 'textarea, input.createboxInput' )
+				.not( '.multipleTemplateStarter textarea' )
+				.not( '.multipleTemplateStarter input.createboxInput' )
+				.not( 'input.pfTokens' )
+				.not( 'textarea.visualeditor' );
+
+			$inputs.each( function ( i, input ) {
+				this.setupFormField( input );
+			}.bind( this ) );
+
+			var $ve4alls = $newDiv.find( 'textarea.visualeditor' );
+			$ve4alls.each( function ( i, input ) {
+				this.setupVEForAllField( $( input ).data( 've' ) );
+			}.bind( this ) );
+
 		}.bind( this ) );
 
 		// Handle VEForAll instances inside the form, it won't do anything if there are no VEForAll
@@ -190,42 +205,45 @@
 		mw.loader.using( 'ext.veforall.main', function () {
 			var instances = $( document ).getVEInstances();
 			instances.forEach( function ( instance ) {
-				instance.target.on( 'editor-ready', function () {
-
-					console.log('! Editor-ready on VEForAll instance!');
-
-					if ( typeof instance.acrolinxEnabled === 'undefined' ) {
-
-						// TODO: needs extra modification on SDK
-						var inputAdapter = new acrolinx.plugins.adapter.VisualEditorAdapter( {
-							ve: instance
-						} );
-						self.multiAdapter.addSingleAdapter( inputAdapter );
-
-						// TODO: This is a bit hacky - we store init flag on the instance
-						//  to prevent it from being initialized again and again since
-						//  editor-ready event will be triggered each time user switch from VE to textarea
-						//  and versa
-						instance.acrolinxEnabled = true;
-					}
-
-					// VE surface being recreated on editor switch so we need to rebind
-					instance.target.getSurface().on( 'switchEditor', function () {
-						// TODO: ideally we need to remove the adapter upon VE surface destroy
-						//  and replace it with regular input adapter, though, the removeAdapter method
-						//  is not implemented in the Acrolinx SDK so perhaps this is a very
-						//  special case need to be implemented in the new VisualEditorAdapter class in Acrolinx SDK
-						if ( $( instance.target.$node ).is( ':visible' ) ) {
-							// Switch to VE
-							// TODO: ...
-						} else {
-							// Switch to TEXTAREA
-							// TODO: ...
-						}
-					} );
-
-				} );
+				self.setupVEForAllField( instance );
 			} );
+		} );
+	};
+
+	MediawikiAcrolinx.prototype.setupVEForAllField = function ( instance ) {
+		var self = this;
+		instance.target.on( 'editor-ready', function () {
+
+			if ( typeof instance.acrolinxEnabled === 'undefined' ) {
+
+				// TODO: needs extra modification on SDK
+				var inputAdapter = new acrolinx.plugins.adapter.VisualEditorAdapter( {
+					ve: instance
+				} );
+				self.multiAdapter.addSingleAdapter( inputAdapter );
+
+				// TODO: This is a bit hacky - we store init flag on the instance
+				//  to prevent it from being initialized again and again since
+				//  editor-ready event will be triggered each time user switch from VE to textarea
+				//  and versa
+				instance.acrolinxEnabled = true;
+			}
+
+			// VE surface being recreated on editor switch so we need to rebind
+			instance.target.getSurface().on( 'switchEditor', function () {
+				// TODO: ideally we need to remove the adapter upon VE surface destroy
+				//  and replace it with regular input adapter, though, the removeAdapter method
+				//  is not implemented in the Acrolinx SDK so perhaps this is a very
+				//  special case need to be implemented in the new VisualEditorAdapter class in Acrolinx SDK
+				if ( $( instance.target.$node ).is( ':visible' ) ) {
+					// Switch to VE
+					// TODO: ...
+				} else {
+					// Switch to TEXTAREA
+					// TODO: ...
+				}
+			} );
+
 		} );
 	};
 
