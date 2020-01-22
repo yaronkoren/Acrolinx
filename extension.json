@@ -23,8 +23,9 @@
 	"ResourceModules": {
 		"ext.acrolinx": {
 			"scripts": [
-				"resources/acrolinx-sidebar-integration.js",
-				"resources/mw_acrolinx.js"
+				"resources/acrolinx-sidebar-sdk.min.js",
+				"resources/MediawikiAcrolinx.js",
+				"resources/init.js"
 			],
 			"styles": [
 				"resources/acrolinx-sidebar.css",
@@ -39,7 +40,8 @@
 	"Hooks": {
 		"MakeGlobalVariablesScript": "AcrolinxHooks::setGlobalJSVariables",
 		"EditPage::showEditForm:initial": "AcrolinxHooks::addToEditPage",
-		"PageForms::AddRLModules": "AcrolinxHooks::addToFormEditPage"
+		"PageForms::AddRLModules": "AcrolinxHooks::addToFormEditPage",
+		"BeforePageDisplay": "AcrolinxHooks::BeforePageDisplay"
 	},
 	"config": {
 		"AcrolinxNamespaces": [0]

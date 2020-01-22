@@ -1,0 +1,26 @@
+{
+	"extends": [
+		"wikimedia/client",
+		"wikimedia/jquery"
+	],
+	"globals": {
+		"require": false,
+		"module": false,
+		"mw": false,
+		"OO": false,
+		"acrolinx": false,
+		"jQuery": false,
+		"mediaWiki": true
+	},
+	"rules": {
+		"quote-props": [ "error", "as-needed" ],
+		"max-len": "off",
+		"no-jquery/no-global-selector": "off",
+		"no-implicit-globals": "off",
+		"vars-on-top": "off",
+		"one-var": "off",
+		"no-jquery/no-event-shorthand": "off",
+		"no-jquery/no-animate": "off",
+		"linebreak-style": "off"
+	}
+}

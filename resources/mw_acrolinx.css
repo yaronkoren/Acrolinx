@@ -1,8 +1,14 @@
 /**
  * MediaWiki-specific customizations for Acrolinx.
  */
+
+#acrolinxContainer {
+	/*min-height: calc( 100vh - 300px );*/
+	/*float: right;*/
+}
+
 #acrolinxContainer iframe {
-  margin-top: 60px;
+	margin-top: 60px;
 }
 
 div#acrolinxToggle {
@@ -10,4 +16,24 @@ div#acrolinxToggle {
 	float: right;
 	font-size: 22pt;
 	color: #777;
+}
+
+#acrolinxContainer.ve-enabled-acrolinx {
+	overflow: hidden;
+	z-index: 999999;
+	float: right;
+}
+
+#acrolinxContainer.ve-enabled-acrolinx iframe {
+	margin-top: 114px;
+	min-height: 100%;
+	max-height: calc( 100vh - 116px );
+}
+
+.acrolinx-ve-sidebar #content {
+	margin-right: 301px;
+}
+
+.ve-init-mw-desktopArticleTarget-originalContent #acrolinxContainer {
+	display: none;
 }
