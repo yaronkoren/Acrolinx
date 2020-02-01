@@ -7,6 +7,18 @@ wiki pages.
 For more information on the Acrolinx extension, see its homepage at
 https://www.mediawiki.org/wiki/Extension:Acrolinx
 
+== Setup ==
+
+* Clone/extract the extension into the `/extensions` folder of your wiki
+* Add `wfLoadExtension('Acrolinx');` to the bottom of your `/LocalSettings.php` file
+
+Note: if you'd like to use the Acrolinx spellcheck with VisualEditor extension you
+need to apply a patch for the VisualEditor, follow the steps below:
+
+* copy the `VisualEditor.diff` to the `/extensions/VisualEditor/lib/ve` folder
+* cd into the `/extensions/VisualEditor/lib/ve` folder
+* run `git apply VisualEditor.diff`
+
 == Credits ==
 
 The Acrolinx extension was created by Yaron Koren. It uses
