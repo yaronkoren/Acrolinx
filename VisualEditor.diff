@@ -1,0 +1,51 @@
+diff --git a/src/dm/ve.dm.Surface.js b/src/dm/ve.dm.Surface.js
+index 735e763cb..acce642d9 100644
+--- a/src/dm/ve.dm.Surface.js
++++ b/src/dm/ve.dm.Surface.js
+@@ -681,6 +681,46 @@ ve.dm.Surface.prototype.stopQueueingContextChanges = function () {
+ 	}
+ };
+ 
++/**
++ * Set a linear selection at a specified range on the model
++ *
++ * @param {number} [from=0] Anchor offset
++ * @param {number} [to=from] Focus offset
++ */
++ve.dm.Surface.prototype.setLinearSelectionFromRange = function ( from, to ) {
++	this.setSelection( new ve.dm.LinearSelection( new ve.Range( from, to ) ) );
++};
++
++ve.dm.Surface.prototype.doReplacementRange = function( from, to, newText ) {
++	var replace = ve.dm.TransactionBuilder.static.newFromReplacement(
++		this.getDocument(),
++		new ve.Range( from, to ),
++		newText
++	);
++	var replaceChange = new ve.dm.Change(
++		this.getDocument().completeHistory.getLength(),
++		[ replace ]
++	);
++	replaceChange.applyTo( this );
++
++	/*var remove = ve.dm.TransactionBuilder.static.newFromRemoval(
++		this.getDocument(),
++		new ve.Range( from ,to )
++	);
++	var insert = ve.dm.TransactionBuilder.static.newFromInsertion(
++		this.getDocument(),
++		from,
++		newText
++	);
++
++	var removeChange = new ve.dm.Change(
++		this.getDocument().completeHistory.getLength(),
++		[ remove, insert ]
++	);
++	removeChange.applyTo( this );*/
++
++};
++
+ /**
+  * Set a linear selection at a specified range on the model
+  *

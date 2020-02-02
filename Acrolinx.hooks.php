@@ -94,4 +94,16 @@ class AcrolinxHooks {
 		return true;
 	}
 
+	/**
+	 * @param array $paths
+	 *
+	 * @return bool
+	 *
+	 * @deprecated since 1.28, kept for b/c
+	 */
+	public static function onUnitTestsList( &$paths ) {
+		$paths[] = __DIR__ . '/tests/phpunit/';
+		return true;
+	}
+
 }
