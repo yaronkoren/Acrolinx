@@ -180,11 +180,6 @@
 				this.setupFormField( input );
 			}.bind( this ) );
 
-			var $ve4alls = $newDiv.find( 'textarea.visualeditor' );
-			$ve4alls.each( function ( i, input ) {
-				this.setupVEForAllField( $( input ).data( 've' ) );
-			}.bind( this ) );
-
 		}.bind( this ) );
 
 		// Handle VEForAll instances inside the form, it won't do anything if there are no VEForAll
@@ -196,18 +191,10 @@
 	 * Adds necessary bindings for VEForAll fields in form
 	 */
 	MediawikiAcrolinx.prototype.setupVEForAll = function () {
-		/**
-		 * The code below adds surface-ready callbacks to all VE form field instances
-		 * and initializes an acrolinx.plugins.adapter.ContentEditableAdapter on these
-		 * @see $.addAcrolinxAdapterToFormInput()
-		 */
 		var self = this;
-		mw.loader.using( 'ext.veforall.main', function () {
-			var instances = $( document ).getVEInstances();
-			instances.forEach( function ( instance ) {
-				self.setupVEForAllField( instance );
-			} );
-		} );
+		mw.hook( 'veForAll.targetCreated' ).add( function( instance ) {
+			self.setupVEForAllField( instance );
+		});
 	};
 
 	MediawikiAcrolinx.prototype.setupVEForAllField = function ( instance ) {
