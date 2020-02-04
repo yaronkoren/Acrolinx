@@ -48,7 +48,7 @@
 	 */
 	MediawikiAcrolinx.prototype.startAcrolinx = function ( initializers ) {
 		$.when.apply( $, initializers ).done( function () {
-			this.addMarkup();
+			this.addToPage();
 			// Register the adapters
 			this.acrolinxPlugin.registerAdapter( this.multiAdapter );
 			// Start the plugin
@@ -119,14 +119,21 @@
 	};
 
 	/**
-	 * Adds sidebar markup to the dom
+	 * Adds the Acrolinx interface to the page.
 	 */
-	MediawikiAcrolinx.prototype.addMarkup = function () {
+	MediawikiAcrolinx.prototype.addToPage = function () {
+		var pageLocationID = mw.config.get( 'wgAcrolinxPageLocationID' );
 		if ( this.editMode === 've' ) {
-			$( '#content' ).before( '<div id="acrolinxContainer" class="ve-enabled-acrolinx"></div>' );
+			if ( pageLocationID == null ) {
+				pageLocationID = 'content';
+			}
+			$( '#' + pageLocationID ).before( '<div id="acrolinxContainer" class="ve-enabled-acrolinx"></div>' );
 			$( 'body' ).addClass( 'acrolinx-ve-sidebar' );
 		} else {
-			$( '#bodyContent' ).prepend( '<div id="acrolinxContainer"></div>' );
+			if ( pageLocationID == null ) {
+				pageLocationID = 'bodyContent';
+			}
+			$( '#' + pageLocationID ).prepend( '<div id="acrolinxContainer"></div>' );
 		}
 	};
 

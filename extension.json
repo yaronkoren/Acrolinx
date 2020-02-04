@@ -45,7 +45,8 @@
 		"UnitTestsList": "AcrolinxHooks::onUnitTestsList"
 	},
 	"config": {
-		"AcrolinxNamespaces": [0]
+		"AcrolinxNamespaces": [0],
+		"AcrolinxPageLocationID": null
 	},
 	"manifest_version": 1
 }

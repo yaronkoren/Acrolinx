@@ -29,10 +29,13 @@ class AcrolinxHooks {
 	 */
 	public static function setGlobalJSVariables( &$vars, $out ) {
 		global $wgAcrolinxServerAddress, $wgAcrolinxClientSignature;
+		global $wgAcrolinxPageLocationID;
 		global $wgLanguageCode;
 
 		$vars['wgAcrolinxServerAddress'] = $wgAcrolinxServerAddress;
 		$vars['wgAcrolinxClientSignature'] = $wgAcrolinxClientSignature;
+		$vars['wgAcrolinxPageLocationID'] = $wgAcrolinxPageLocationID;
+
 		$context = $out->getContext();
 		$mwUserLanguage = $context->getLanguage()->getCode();
 		// More processing may be needed here, to convert from
