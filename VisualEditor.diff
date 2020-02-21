@@ -1,8 +1,8 @@
 diff --git a/src/dm/ve.dm.Surface.js b/src/dm/ve.dm.Surface.js
-index 735e763cb..acce642d9 100644
+index c61047a14..3504df0c0 100644
 --- a/src/dm/ve.dm.Surface.js
 +++ b/src/dm/ve.dm.Surface.js
-@@ -681,6 +681,46 @@ ve.dm.Surface.prototype.stopQueueingContextChanges = function () {
+@@ -692,6 +692,29 @@ ve.dm.Surface.prototype.stopQueueingContextChanges = function () {
  	}
  };
  
@@ -27,23 +27,6 @@ index 735e763cb..acce642d9 100644
 +		[ replace ]
 +	);
 +	replaceChange.applyTo( this );
-+
-+	/*var remove = ve.dm.TransactionBuilder.static.newFromRemoval(
-+		this.getDocument(),
-+		new ve.Range( from ,to )
-+	);
-+	var insert = ve.dm.TransactionBuilder.static.newFromInsertion(
-+		this.getDocument(),
-+		from,
-+		newText
-+	);
-+
-+	var removeChange = new ve.dm.Change(
-+		this.getDocument().completeHistory.getLength(),
-+		[ remove, insert ]
-+	);
-+	removeChange.applyTo( this );*/
-+
 +};
 +
  /**
