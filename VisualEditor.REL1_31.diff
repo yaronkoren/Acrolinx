@@ -1,8 +1,8 @@
 diff --git a/src/dm/ve.dm.Surface.js b/src/dm/ve.dm.Surface.js
-index c61047a14..3504df0c0 100644
+index 6e09d7c2f..e8b01ad12 100644
 --- a/src/dm/ve.dm.Surface.js
 +++ b/src/dm/ve.dm.Surface.js
-@@ -692,6 +692,29 @@ ve.dm.Surface.prototype.stopQueueingContextChanges = function () {
+@@ -607,6 +607,30 @@ ve.dm.Surface.prototype.stopQueueingContextChanges = function () {
  	}
  };
  
@@ -13,7 +13,7 @@ index c61047a14..3504df0c0 100644
 + * @param {number} [to=from] Focus offset
 + */
 +ve.dm.Surface.prototype.setLinearSelectionFromRange = function ( from, to ) {
-+	this.setSelection( new ve.dm.LinearSelection( new ve.Range( from, to ) ) );
++	this.setSelection( new ve.dm.LinearSelection( this.getDocument(), new ve.Range( from, to ) ) );
 +};
 +
 +ve.dm.Surface.prototype.doReplacementRange = function( from, to, newText ) {
@@ -23,8 +23,9 @@ index c61047a14..3504df0c0 100644
 +		newText
 +	);
 +	var replaceChange = new ve.dm.Change(
-+		this.getDocument().completeHistory.getLength(),
-+		[ replace ]
++		this.getDocument().completeHistory.length,
++		[ replace ],
++		[ this.getDocument().store ]
 +	);
 +	replaceChange.applyTo( this );
 +};
