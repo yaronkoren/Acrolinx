@@ -24329,6 +24329,7 @@ var VisualEditorAdapter = /** @class */ (function (_super) {
         this.veTarget.getSurface().getModel().setNullSelection();
         // Push new selection to the VE surface
         this.veTarget.getSurface().getModel().setLinearSelectionFromRange(range[0], range[1]);
+        this.scrollToCurrentSelection();
     };
     /**
      * Creates VE surface compatible selection range
@@ -24380,10 +24381,19 @@ var VisualEditorAdapter = /** @class */ (function (_super) {
     // @ts-ignore
     // eslint-ignore-line
     VisualEditorAdapter.prototype.scrollIntoView = function (sel) {
-        // FIXME: !!!
+        var parentElement = sel.anchorNode.parentElement;
+        parentElement.scrollIntoView();
     };
     VisualEditorAdapter.prototype.scrollToCurrentSelection = function () {
-        // FIXME: !!!
+        const selection1 = this.getEditorDocument().getSelection();
+
+        if (selection1) {
+            try {
+                this.scrollIntoView(selection1);
+            } catch (error) {
+                console.log('Scrolling Error: ', error);
+            }
+        }
     };
     return VisualEditorAdapter;
 }(AbstractRichtextEditorAdapter_1.AbstractRichtextEditorAdapter));
