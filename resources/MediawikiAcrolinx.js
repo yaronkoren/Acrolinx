@@ -215,6 +215,7 @@
 					ve: instance
 				} );
 				self.multiAdapter.addSingleAdapter( inputAdapter );
+				self.sortAdapters();
 
 				// TODO: This is a bit hacky - we store init flag on the instance
 				//  to prevent it from being initialized again and again since
@@ -280,6 +281,7 @@
 				ve: window.ve
 			} );
 			this.multiAdapter.addSingleAdapter( contentAdapter );
+			this.sortAdapters();
 
 			if ( this.editMode !== 've' ) {
 				this.startAcrolinx( [] );
@@ -301,6 +303,31 @@
 		}.bind( this ) );
 
 		return defer;
+	};
+
+        /**
+	 * This function is needed so that the adapters will be stored (and
+	 * then called) in the order that their inputs appear in the form,
+	 * instead of just having "regular" inputs first and VisualEditor inputs
+	 * later.
+	 */
+	MediawikiAcrolinx.prototype.sortAdapters = function() {
+		var self = this;
+		self.multiAdapter.adapters.sort( function( a, b ) {
+			var inputNumA = self.getAdapterInputNum( a.adapter );
+			var inputNumB = self.getAdapterInputNum( b.adapter );
+			return ( inputNumA - inputNumB );
+		});
+	};
+
+	MediawikiAcrolinx.prototype.getAdapterInputNum = function( adapter ) {
+		var inputID;
+		if ( adapter instanceof acrolinx.plugins.adapter.VisualEditorAdapter ) {
+			inputID = adapter.ve.$node[0].id;
+		} else {
+			inputID = adapter.element.id;
+		}
+		return parseInt( inputID.replace( 'input_', '' ) );
 	};
 
 	/**
