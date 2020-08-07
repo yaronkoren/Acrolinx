@@ -24328,6 +24328,9 @@ var VisualEditorAdapter = /** @class */ (function (_super) {
         // Nullify any existing VE selections on a surface
         this.veTarget.getSurface().getModel().setNullSelection();
         // Push new selection to the VE surface
+        // @HACK - we call this "0, 0" selection first in order to set the
+        // focus, so that selections within tables will work.
+        this.veTarget.getSurface().getModel().setLinearSelectionFromRange(0, 0);
         this.veTarget.getSurface().getModel().setLinearSelectionFromRange(range[0], range[1]);
         this.scrollToCurrentSelection();
     };
