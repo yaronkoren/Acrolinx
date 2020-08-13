@@ -335,7 +335,8 @@
 	 */
 	MediawikiAcrolinx.prototype.onResize = function () {
 		var newContentAreaWidth = this.getContentAreaWidthWithAcrolinx();
-		$( '#mw-content-text' ).width( newContentAreaWidth );
+		var pageLocationID = mw.config.get( 'wgAcrolinxPageLocationID' );
+		$( pageLocationID ).width( newContentAreaWidth );
 	};
 
 	/**
@@ -345,7 +346,8 @@
 	 */
 	MediawikiAcrolinx.prototype.getContentAreaWidthWithAcrolinx = function ( acrolinxWidth ) {
 		var browserWidth = $( window ).width();
-		var mainTextLeft = $( '#mw-content-text' ).offset().left;
+		var pageLocationID = mw.config.get( 'wgAcrolinxPageLocationID' );
+		var mainTextLeft = $( pageLocationID ).offset().left;
 		acrolinxWidth = acrolinxWidth || $( '#acrolinxContainer iframe' ).width();
 		return browserWidth - mainTextLeft - acrolinxWidth - 50;
 	};
@@ -378,7 +380,8 @@
 			width: acrolinxWidth + 'px'
 		} );
 		contentAreaWidth = this.getContentAreaWidthWithAcrolinx( acrolinxWidth );
-		$( '#mw-content-text' ).animate( {
+		var pageLocationID = mw.config.get( 'wgAcrolinxPageLocationID' );
+		$( pageLocationID ).animate( {
 			width: contentAreaWidth
 		} );
 	};
