@@ -30,6 +30,9 @@
 			"styles": [
 				"resources/acrolinx-sidebar.css",
 				"resources/mw_acrolinx.css"
+			],
+			'dependencies': [
+				'mediawiki.util'
 			]
 		}
 	},
